@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -58,6 +58,8 @@ export const ContractDetailsModal = ({
   contract,
   children,
 }: ContractDetailsModalProps) => {
+  const [activeTab, setActiveTab] = useState("overview");
+
   // Buscar detalhes completos do contrato
   const { data: contractDetails, isLoading, error } = useContract(contract.id);
 
@@ -113,8 +115,8 @@ export const ContractDetailsModal = ({
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Visão Geral</TabsTrigger>
             <TabsTrigger value="budget">Orçamento Previsto</TabsTrigger>
             <TabsTrigger value="import-nf">Importar NFs</TabsTrigger>
@@ -376,6 +378,7 @@ export const ContractDetailsModal = ({
             <ImportNFTab
               contractId={fullContract.id}
               contractName={fullContract.name}
+              onImportSuccess={() => setActiveTab("realizacao")}
             />
           </TabsContent>
 

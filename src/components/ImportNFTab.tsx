@@ -19,11 +19,13 @@ import { useProcessFolder, useProcessingLogs } from "@/hooks/useNotasFiscais";
 interface ImportNFTabProps {
   contractId: number;
   contractName: string;
+  onImportSuccess?: () => void;
 }
 
 export const ImportNFTab: React.FC<ImportNFTabProps> = ({
   contractId,
   contractName,
+  onImportSuccess,
 }) => {
   const [folderName, setFolderName] = useState("");
   const processFolder = useProcessFolder();
@@ -37,7 +39,8 @@ export const ImportNFTab: React.FC<ImportNFTabProps> = ({
     const webhookUrl = "https://n8n.gmxindustrial.com.br/webhook/nome_pasta";
     const payload = {
     folder: folderName,
-    status: 'iniciado'
+    status: 'iniciado',
+    contract_id: contractId
   };
 
     try {
@@ -50,6 +53,13 @@ export const ImportNFTab: React.FC<ImportNFTabProps> = ({
     });
 
     const data = await response.json();
+
+    // Mudar para a aba de Notas Fiscais após enviar com sucesso
+    if (response.ok && onImportSuccess) {
+      setTimeout(() => {
+        onImportSuccess();
+      }, 2000); // Aguardar 2 segundos para mostrar mensagem de sucesso
+    }
     } catch (error) {
       console.error("Erro ao processar pasta:", error);
     }
@@ -246,27 +256,6 @@ export const ImportNFTab: React.FC<ImportNFTabProps> = ({
         </Card>
       )}
 
-      {/* Webhook Info */}
-      <Card className="bg-muted/30">
-        <CardHeader>
-          <CardTitle className="text-base">Informações Técnicas</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-sm space-y-2">
-            <p>
-              <strong>Webhook URL:</strong>
-            </p>
-            <code className="block bg-background p-2 rounded text-xs">
-              https://n8n.gmxindustrial.com.br/webhook/nome_pasta/
-              {folderName || "{nome_pasta}"}
-            </code>
-            <p className="text-muted-foreground">
-              O sistema utilizará este webhook para processar as notas fiscais
-              automaticamente via n8n.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };

@@ -31,7 +31,6 @@ export const Sidebar = ({ activeSection, onSectionChange }: SidebarProps) => {
     { id: "dashboard", label: "Dashboard", icon: Home },
     { id: "contracts", label: "Contratos", icon: Building2 },
     { id: "purchases", label: "Compras", icon: ShoppingCart },
-    { id: "nf-import", label: "Importar NFs", icon: Receipt },
     { id: "cost-centers", label: "Centros de Custo", icon: Tag },
     { id: "reports", label: "Relatórios", icon: FileText },
     { id: "account", label: "Conta Corrente", icon: DollarSign },

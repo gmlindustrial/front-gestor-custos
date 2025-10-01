@@ -290,44 +290,68 @@ const ContractProgressBar = ({ contractId }: ContractProgressBarProps) => {
 
   if (isLoading) {
     return (
-      <div className="space-y-2">
-        <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Progresso</span>
-          <div className="h-4 w-12 bg-muted rounded animate-pulse"></div>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Valor Previsto</span>
+            <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
+          </div>
+          <div className="w-full bg-muted rounded-full h-2 animate-pulse"></div>
         </div>
-        <div className="w-full bg-muted rounded-full h-2 animate-pulse"></div>
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Total Realizado</span>
+            <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
+          </div>
+          <div className="w-full bg-muted rounded-full h-2 animate-pulse"></div>
+        </div>
       </div>
     );
   }
 
-  const progress = realizedData?.data?.percentual_realizado || 0;
+  const data = realizedData?.data;
+  const progress = data?.percentual_realizado || 0;
   const isOverBudget = progress > 100;
 
   return (
-    <div className="space-y-2">
-      <div className="flex justify-between text-sm">
-        <span className="text-muted-foreground">Progresso Financeiro</span>
-        <span className={`font-medium ${isOverBudget ? 'text-destructive' : 'text-foreground'}`}>
-          {progress.toFixed(1)}%
-        </span>
-      </div>
-      <div className="w-full bg-muted rounded-full h-2">
-        <div
-          className={`h-2 rounded-full transition-all duration-300 ${
-            isOverBudget ? 'bg-destructive' : 'bg-gradient-primary'
-          }`}
-          style={{ width: `${Math.min(progress, 100)}%` }}
-        />
-        {isOverBudget && (
+    <div className="space-y-4">
+      {/* Barra Valor Previsto */}
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm">
+          <span className="text-muted-foreground">Valor Previsto</span>
+          <span className="font-medium text-foreground">
+            R$ {data?.valor_original.toLocaleString('pt-BR') || 0}
+          </span>
+        </div>
+        <div className="w-full bg-muted rounded-full h-2">
           <div
-            className="h-2 rounded-full bg-destructive/50 -mt-2 transition-all duration-300"
-            style={{ width: `${Math.min(progress - 100, 100)}%`, marginLeft: '100%' }}
+            className="h-2 rounded-full bg-blue-500 transition-all duration-300"
+            style={{ width: '100%' }}
           />
-        )}
+        </div>
       </div>
-      {realizedData?.data && (
+
+      {/* Barra Total Realizado */}
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm">
+          <span className="text-muted-foreground">Total Realizado</span>
+          <span className={`font-medium ${isOverBudget ? 'text-destructive' : 'text-foreground'}`}>
+            R$ {data?.valor_realizado.toLocaleString('pt-BR') || 0} ({progress.toFixed(1)}%)
+          </span>
+        </div>
+        <div className="w-full bg-muted rounded-full h-2">
+          <div
+            className={`h-2 rounded-full transition-all duration-300 ${
+              isOverBudget ? 'bg-destructive' : 'bg-gradient-primary'
+            }`}
+            style={{ width: `${Math.min(progress, 100)}%` }}
+          />
+        </div>
+      </div>
+
+      {data && (
         <div className="text-xs text-muted-foreground">
-          Base: {realizedData.data.nfs_validadas} de {realizedData.data.total_nfs} NFs validadas
+          Base: {data.nfs_validadas} de {data.total_nfs} NFs validadas
         </div>
       )}
     </div>

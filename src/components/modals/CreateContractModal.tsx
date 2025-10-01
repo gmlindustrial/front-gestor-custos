@@ -93,14 +93,14 @@ export const CreateContractModal = () => {
           Novo Contrato
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Criar Novo Contrato</DialogTitle>
           <DialogDescription>
             Preencha as informações do novo contrato
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nome do Contrato</Label>
             <Input

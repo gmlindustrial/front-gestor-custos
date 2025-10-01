@@ -19,9 +19,9 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Add trailing slash to avoid 307 redirects
-    if (config.url && !config.url.endsWith('/') && !config.url.includes('?')) {
-      config.url = config.url + '/';
+    // Remove trailing slash to match backend expectations
+    if (config.url && config.url.endsWith('/')) {
+      config.url = config.url.slice(0, -1);
     }
 
     return config;

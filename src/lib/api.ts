@@ -18,6 +18,12 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Add trailing slash to avoid 307 redirects
+    if (config.url && !config.url.endsWith('/') && !config.url.includes('?')) {
+      config.url = config.url + '/';
+    }
+
     return config;
   },
   (error) => {

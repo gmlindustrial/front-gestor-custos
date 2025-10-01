@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { ApiResponse, ApiError } from '@/types';
-import { getApiConfig } from '@/config/api';
-
-// Get API configuration
-const apiConfig = getApiConfig();
+import { API_CONFIG } from '@/config/api';
 
 const api = axios.create({
-  baseURL: apiConfig.BASE_URL,
-  timeout: apiConfig.TIMEOUT,
-  headers: apiConfig.DEFAULT_HEADERS,
+  baseURL: API_CONFIG.BASE_URL,
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // Request interceptor

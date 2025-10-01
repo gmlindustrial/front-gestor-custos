@@ -5,7 +5,7 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { getApiConfig } from "@/config/api";
+import { API_CONFIG } from "@/config/api";
 
 interface User {
   id: number;
@@ -37,7 +37,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [error, setError] = useState<string | null>(null);
 
   const isAuthenticated = !!user;
-  const apiConfig = getApiConfig();
 
   useEffect(() => {
     const validateToken = async () => {
@@ -48,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
           const parsedUser = JSON.parse(userData);
 
-          const response = await fetch(`${apiConfig.BASE_URL}/auth/me`, {
+          const response = await fetch(`${API_CONFIG.BASE_URL}/auth/me`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 
@@ -84,7 +83,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       formData.append("username", email); // backend espera username, usamos email
       formData.append("password", password);
 
-      const response = await fetch(`${apiConfig.BASE_URL}/auth/login`, {
+      const response = await fetch(`${API_CONFIG.BASE_URL}/auth/login`, {
         method: "POST",
         body: formData,
       });
@@ -99,7 +98,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       localStorage.setItem("authToken", access_token);
 
-      const userResponse = await fetch(`${apiConfig.BASE_URL}/auth/me`, {
+      const userResponse = await fetch(`${API_CONFIG.BASE_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${access_token}` },
       });
 

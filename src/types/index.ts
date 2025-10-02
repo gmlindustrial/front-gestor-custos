@@ -214,32 +214,55 @@ export interface KPI {
 // NF (Nota Fiscal) related types
 export interface NotaFiscal {
   id: number;
-  number: string;
-  series: string;
-  supplier: string;
-  contract?: string;
-  contractId?: number; // Vinculação direta com contrato
+  numero: string;
+  serie: string;
+  chave_acesso?: string;
+  cnpj_fornecedor: string;
+  nome_fornecedor: string;
+  data_emissao?: string;
+  data_entrada?: string;
   valor_total: number;
-  items: NFItem[];
-  date: string;
-  status: 'Pendente' | 'Validada' | 'Rejeitada' | 'Processada';
-  xmlFile?: string;
-  pdfFile?: string;
+  valor_produtos?: number;
+  valor_impostos?: number;
+  valor_frete?: number;
+  pasta_origem: string;
+  subpasta?: string;
+  status_processamento: string;
+  observacoes?: string;
+  contrato_id?: number;
+  ordem_compra_id?: number;
+  created_at?: string;
+  updated_at?: string;
+  processed_by_n8n_at?: string;
+  tipo_nf?: 'entrada' | 'saida';
+  destinatario_cnpj?: string;
+  destinatario_nome?: string;
+  transportadora_cnpj?: string;
+  transportadora_nome?: string;
+  peso_total?: number;
+  volumes?: number;
+  items: NotaFiscalItem[];
 }
 
-export interface NFItem {
+export interface NotaFiscalItem {
   id: number;
-  description: string;
-  quantity: number;
-  unitValue: number;
-  totalValue: number;
+  numero_item: number;
+  codigo_produto?: string;
+  descricao: string;
   ncm?: string;
-  budgetItemId?: string; // Vinculação com item do orçamento previsto
-  costCenterId?: string; // Centro de custo classificado
-  classificationScore?: number; // Confiança da classificação automática
-  classificationSource?: 'manual' | 'rule' | 'ai'; // Origem da classificação
-  unit?: string;
-  weight?: number;
+  quantidade: number;
+  unidade: string;
+  valor_unitario: number;
+  valor_total: number;
+  peso_liquido?: number;
+  peso_bruto?: number;
+  centro_custo_id?: number;
+  centro_custo?: string;
+  item_orcamento_id?: number;
+  score_classificacao?: number;
+  fonte_classificacao?: string;
+  status_integracao: string;
+  integrado_em?: string;
 }
 
 export interface NFImportResult {

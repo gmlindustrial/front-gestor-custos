@@ -1,49 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { notasFiscaisService } from '@/services/notasFiscaisService';
 import { useToast } from '@/hooks/use-toast';
-
-export interface NotaFiscal {
-  id: number;
-  numero: string;
-  serie: string;
-  chave_acesso?: string;
-  fornecedor: string;
-  cnpj_fornecedor: string;
-  valor_total: number;
-  valor_produtos?: number;
-  valor_impostos?: number;
-  valor_frete?: number;
-  data_emissao?: string;
-  data_entrada?: string;
-  status_processamento: string;
-  pasta_origem: string;
-  subpasta?: string;
-  observacoes?: string;
-  created_at?: string;
-  processed_at?: string;
-  items: NotaFiscalItem[];
-}
-
-export interface NotaFiscalItem {
-  id: number;
-  numero_item: number;
-  codigo_produto?: string;
-  descricao: string;
-  ncm?: string;
-  quantidade: number;
-  unidade: string;
-  valor_unitario: number;
-  valor_total: number;
-  peso_liquido?: number;
-  peso_bruto?: number;
-  centro_custo_id?: number;
-  centro_custo?: string;
-  item_orcamento_id?: number;
-  score_classificacao?: number;
-  fonte_classificacao?: string;
-  status_integracao: string;
-  integrado_em?: string;
-}
+import { NotaFiscal, NotaFiscalItem } from '@/types';
 
 export interface ContractNFsDetailedResponse {
   contract: {
